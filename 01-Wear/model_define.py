@@ -12,8 +12,11 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import torch.utils.data as Data
 from sklearn.metrics import r2_score
-
-DEVICE = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+# DEVICE = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+DEVICE = torch.device('cpu')
+def acc_pre(y_true,y_pred):
+    R2 = r2_score(y_true,y_pred)
+    return R2
 
 class SourceCNN(nn.Module):
     def __init__(self):
@@ -187,7 +190,7 @@ if __name__ == '__main__':
             for step, (batch_x, batch_y) in enumerate(loader):
                 prediction = Source.forward(batch_x)
                 Loss = criterion(prediction, batch_y)
-                loss_list.append(Loss.data/len(batch_x))   
+                loss_list.append(Loss.data/len(batch_x))   # 损失函数可视化
                 acc = acc_pre(batch_y.cpu().data.numpy(),prediction.cpu().data.numpy())
                 accuracy_list.append(acc)
                 optimizer.zero_grad()
@@ -210,7 +213,7 @@ if __name__ == '__main__':
         plt.ylim([40, 150])
         plt.show()
         '''
-        cycle = (np.arange(313)).reshape(313, 1)  
+        cycle = (np.arange(313)).reshape(313, 1)  # 这里相当于定义了一个从1到313的横坐标
         figure = plt.figure()
         plt.title(Task, fontsize=15)
         plt.xlabel('Milling times', fontsize=13)
