@@ -1,9 +1,7 @@
 # -*- coding: utf-8 -*-
 """
-Created on 14:11,2021/09/13
+Created on 14:11,2022/01/18
 @author: ZhangTeng
-Different Model Contrast  task 1 C1-C4
-
 """
 import numpy as np
 import pandas as pd
@@ -16,6 +14,7 @@ import model_define
 import Seed_Module  # Seeded replacement
 
 DEVICE = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+
 def data_prepare(Task, name, i):
     c1 = np.load('data/c1/c1.npy')[2:316, 0:3, :].reshape(313, 3, 50000)
     c4 = np.load('data/c4/c4.npy')[2:316, 0:3, :].reshape(313, 3, 50000)
@@ -55,7 +54,7 @@ def data_prepare(Task, name, i):
         target_x = torch.Tensor(c4).to(DEVICE)
         target_y = torch.Tensor(Tool_4).to(DEVICE)
     seedrecord = pd.read_csv('SeedIndex/' + name + '_Seed.csv').values
-    index1 = seedrecord[i, :]  # 选出第i行seedrecord中的数据
+    index1 = seedrecord[i, :] 
     index2 = np.delete(np.arange(313), index1)
     t_xseed = target_x[index1, :, :]
     t_yseed = target_y[index1, :]
@@ -115,7 +114,8 @@ def FinetuneFC(model, t_xseed, t_yseed, epoch, learning_rate, regularization):
 
     params = filter(lambda p: p.requires_grad, model.parameters())
     optimizer = torch.optim.Adam(params, lr=learning_rate, weight_decay=regularization)
-    criterion = torch.nn.MSELoss()  # 还是用的MSE损失函数作为模型更新的准则
+    criterion = torch.nn.MSELoss()  
+    
     for i in range(epoch):
         List_xtrain, prediction = model.forward(t_xseed)
         Loss = criterion(prediction, t_yseed)
@@ -128,12 +128,11 @@ def F_Fc_MMD(name, model, t_xseed, t_yseed, t_xtest, epoch, learning_rate, regul
     optimizer = torch.optim.Adam(params, lr=learning_rate, weight_decay=regularization)
     criterion = torch.nn.MSELoss()
     for i in range(epoch):
-        train_list, prediction1 = model.forward(t_xseed)  # list数据类型是带有梯度的tensor
-        #with torch.no_grad():
+        train_list, prediction1 = model.forward(t_xseed)  
         test_list, prediction2 = model.forward(t_xtest)
         MMD = MDA.MMD_loss()
         s = test_list[0]
-        t = train_list[0]  # 本来就是个tensor
+        t = train_list[0]  
         MMDloss = MMD.forward(s, t)
         Loss = 0.01*  criterion(prediction1, t_yseed) + 100* MMDloss
         optimizer.zero_grad()
@@ -145,7 +144,7 @@ def F_Fc_CDA(name, model, t_xseed, t_yseed, t_xtest, epoch, learning_rate, regul
     optimizer = torch.optim.Adam(params, lr=learning_rate, weight_decay=regularization)
     criterion = torch.nn.MSELoss()
     for i in range(epoch):
-        train_list, prediction1 = model.forward(t_xseed)  # list数据类型是带有梯度的tensor
+        train_list, prediction1 = model.forward(t_xseed) 
         with torch.no_grad():
             test_list, prediction2 = model.forward(t_xtest)
 
@@ -160,12 +159,12 @@ def F_Fc_JDA(name, model, t_xseed, t_yseed, t_xtest, epoch, learning_rate, regul
     optimizer = torch.optim.Adam(params, lr=learning_rate, weight_decay=regularization)
     criterion = torch.nn.MSELoss()
     for i in range(epoch):
-        train_list, prediction1 = model.forward(t_xseed)  # list数据类型是带有梯度的tensor
+        train_list, prediction1 = model.forward(t_xseed) 
         with torch.no_grad():
             test_list, prediction2 = model.forward(t_xtest)
         MMD = MDA.MMD_loss()
         s = test_list[0]
-        t = train_list[0]  # 本来就是个tensor
+        t = train_list[0]  
         MMDloss = MMD.forward(s, t)
         CEOD_loss = CDA.forward(test_list, prediction2, train_list, t_yseed)
         Loss = 0.01 * criterion(prediction1, t_yseed) +  100* MMDloss + 100 * CEOD_loss
@@ -181,19 +180,19 @@ def F_Fc_JDASE(model, t_xseed, t_yseed, t_xtest, source_x, source_y, epoch, lear
     criterion = torch.nn.MSELoss()
 
     for i in range(epoch):
-        t_seed_list, prediction1 = model.forward(t_xseed)  # 目标域种子
+        t_seed_list, prediction1 = model.forward(t_xseed)  
         with torch.no_grad():
-            t_test_list, prediction4 = model.forward(t_xtest)  # 目标域测试
+            t_test_list, prediction4 = model.forward(t_xtest) 
 
-        t_seed = torch.cat((t_seed_list[0], t_yseed), 1)  # 组合起来
+        t_seed = torch.cat((t_seed_list[0], t_yseed), 1) 
         with torch.no_grad():
             source_list, prediction2 = model.forward(source_x)
-        s = torch.cat((source_list[0], source_y), 1)  # 全部源域数据
+        s = torch.cat((source_list[0], source_y), 1)  
 
         new_middle_test, label_pred, Residual = Seed_Module.CLUSTER(s, t_seed)
-        # 经过Seed诱导之后的全部源域数据，经过Seed后数据类型是一个numpy
-        new_source_liketarget = torch.from_numpy(new_middle_test).to(DEVICE)  # 把array转化为tensor
-        # 划分为特征和标签
+       
+        new_source_liketarget = torch.from_numpy(new_middle_test).to(DEVICE)  
+
         feartue = new_source_liketarget[:, 0:(np.shape(new_source_liketarget)[1] - 1)]
         label = new_source_liketarget[:, -1].reshape(np.shape(new_source_liketarget)[0], 1)
 
@@ -211,115 +210,105 @@ def F_Fc_JDASE(model, t_xseed, t_yseed, t_xtest, source_x, source_y, epoch, lear
 
 
 if __name__ == '__main__':
-    model_num = 1
+    model_num = 7
     SeedResult = np.zeros((10, 4 * model_num))
     Task = 'C1-C4'
     for i in range(10):
         source_x, source_y, t_xseed, t_yseed, t_xtest, t_ytest = data_prepare(Task, Task, i)
+        
+        learning_rate = 2e-3
+        regularization = 1e-4
+        epoch = 100
+         if 1:
+             name = 'Pre_Direct'
+             target1 = model_define.TargetCNN().to(DEVICE)
+             load_TargetCNN(target1, name, Task)
+        
+             print('Results of No', i, 'seed(', name, '):')
+             PD_Xtest, PD_ytest_pre = test_TargetCNN(target1, t_xtest) 
+             result1 = Result_evalute.predict(t_ytest.cpu().data.numpy(), PD_ytest_pre)
+             print('---------------------------')
+        
+         if 1:
+             name = 'Retrain_All'
+             target2 = model_define.TargetCNN().to(DEVICE)
 
-        # if 1:
-        #     name = 'Pre_Direct'
-        #     target1 = model_define.TargetCNN().to(DEVICE)
-        #     load_TargetCNN(target1, name, Task)
-        #
-        #     print('Results of No', i, 'seed(', name, '):')
-        #     PD_Xtest, PD_ytest_pre = test_TargetCNN(target1, t_xtest)  # 这里直接做了测试！
-        #     result1 = Result_evalute.predict(t_ytest.cpu().data.numpy(), PD_ytest_pre)
-        #     print('---------------------------')
-        #
-        # if 1:
-        #     name = 'Retrain_All'
-        #     target2 = model_define.TargetCNN().to(DEVICE)
-        #     learning_rate = 0.002
-        #     regularization = 1e-4
-        #     num_epochs = 30
-        #
-        #     optimizer = torch.optim.Adam(target2.parameters(), lr=learning_rate, weight_decay=regularization)
-        #     criterion = torch.nn.MSELoss()
-        #     for epoch in range(num_epochs):
-        #         list_txseed, prediction = target2.forward(t_xseed)
-        #         Loss = criterion(prediction, t_yseed)
-        #         optimizer.zero_grad()
-        #         Loss.backward()
-        #         optimizer.step()
-        #     RTA_Xtest, RTA_ytest_pre = test_TargetCNN(target2, t_xtest)
-        #     print('Results of No', i, 'seed(', name, '):')
-        #     result2 = Result_evalute.predict(t_ytest.cpu().data.numpy(), RTA_ytest_pre)  # 这里记录了第一个模型的result1
-        #     print('---------------------------')
-        #     result = np.hstack((result1, result2))
+             optimizer = torch.optim.Adam(target2.parameters(), lr=learning_rate, weight_decay=regularization)
+             criterion = torch.nn.MSELoss()
+             for epoch in range(num_epochs):
+                 list_txseed, prediction = target2.forward(t_xseed)
+                 Loss = criterion(prediction, t_yseed)
+                 optimizer.zero_grad()
+                 Loss.backward()
+                 optimizer.step()
+             RTA_Xtest, RTA_ytest_pre = test_TargetCNN(target2, t_xtest)
+             print('Results of No', i, 'seed(', name, '):')
+             result2 = Result_evalute.predict(t_ytest.cpu().data.numpy(), RTA_ytest_pre)  
+             print('---------------------------')
+             result = np.hstack((result1, result2))
 
-        # if 1:
-        #     name = 'Finetune_Fc'
-        #     target3 = model_define.TargetCNN().to(DEVICE)
-        #     load_TargetCNN(target3, name, Task)
-        #     learning_rate = 0.02
-        #     regularization = 1e-4
-        #     epoch = 30
-        #     FinetuneFC(target3, t_xseed, t_yseed, epoch, learning_rate, regularization)
-        #     FFC_Xtest, FFC_ytest_pre = test_TargetCNN(target3, t_xtest)
-        #     print('Results of No', i, 'seed(', name, '):')
-        #     result3 = Result_evalute.predict(t_ytest.cpu().data.numpy(), FFC_ytest_pre)
-        #     #result = np.hstack((result, result3))
-        #     print('---------------------------')
+         if 1:
+             name = 'Finetune_Fc'
+             target3 = model_define.TargetCNN().to(DEVICE)
+             load_TargetCNN(target3, name, Task)
 
-        # if 1:
-        #     name = 'F_Fc_MMD'
-        #     target4 = model_define.TargetCNN().to(DEVICE)
-        #     load_TargetCNN(target4, name, Task)
-        #     learning_rate = 2e-4
-        #     regularization = 1e-4
-        #     epoch = 10
-        #     F_Fc_MMD(name, target4, t_xseed, t_yseed, t_xtest, epoch, learning_rate, regularization)
-        #     MMD_Xtest, MMD_ytest_pre = test_TargetCNN(target4, t_xtest)  # 直接开始测试
-        #     print('Results of No', i, 'seed(', name, ')')
-        #     result4 = Result_evalute.predict(t_ytest.cpu().data.numpy(), MMD_ytest_pre)
-        #     result = np.hstack((result, result4))
-        #     print('---------------------------')
-        #
-        # if 1:
-        #     name = 'F_Fc_CDA'
-        #     target5 = model_define.TargetCNN().to(DEVICE)
-        #     load_TargetCNN(target5, name, Task)
-        #     learning_rate = 2e-2
-        #     regularization = 1e-4
-        #     epoch = 30
-        #     F_Fc_CDA(name, target5, t_xseed, t_yseed, t_xtest, epoch, learning_rate, regularization)
-        #     CDA_Xtest, CDA_ytest_pre = test_TargetCNN(target5, t_xtest)  # 直接开始测试
-        #     print('Results of No', i, 'seed(', name, ')')
-        #     result5 = Result_evalute.predict(t_ytest.cpu().data.numpy(), CDA_ytest_pre)
-        #     result = np.hstack((result, result5))
-        #     print('---------------------------')
-        #
-        # if 1:
-        #     name = 'F_Fc_JDA'
-        #     target6 = model_define.TargetCNN().to(DEVICE)
-        #     load_TargetCNN(target6, name, Task)
-        #     learning_rate = 2e-2
-        #     regularization = 1e-4
-        #     epoch = 30
-        #     F_Fc_JDA(name, target6, t_xseed, t_yseed, t_xtest, epoch, learning_rate, regularization)
-        #     MMDCDAR_Xtest, MMDCDAR_ytest_pre = test_TargetCNN(target6, t_xtest)  # 直接开始测试
-        #     print('Results of No', i, 'seed(', name, ')')
-        #     result6 = Result_evalute.predict(t_ytest.cpu().data.numpy(), MMDCDAR_ytest_pre)
-        #     result = np.hstack((result, result6))
-        #     print('---------------------------')
+             FinetuneFC(target3, t_xseed, t_yseed, epoch, learning_rate, regularization)
+             FFC_Xtest, FFC_ytest_pre = test_TargetCNN(target3, t_xtest)
+             print('Results of No', i, 'seed(', name, '):')
+             result3 = Result_evalute.predict(t_ytest.cpu().data.numpy(), FFC_ytest_pre)
+             result = np.hstack((result, result3))
+             print('---------------------------')
+
+         if 1:
+             name = 'F_Fc_MMD'
+             target4 = model_define.TargetCNN().to(DEVICE)
+             load_TargetCNN(target4, name, Task)
+
+             F_Fc_MMD(name, target4, t_xseed, t_yseed, t_xtest, epoch, learning_rate, regularization)
+             MMD_Xtest, MMD_ytest_pre = test_TargetCNN(target4, t_xtest) 
+             print('Results of No', i, 'seed(', name, ')')
+             result4 = Result_evalute.predict(t_ytest.cpu().data.numpy(), MMD_ytest_pre)
+             result = np.hstack((result, result4))
+             print('---------------------------')
+        
+         if 1:
+             name = 'F_Fc_CDA'
+             target5 = model_define.TargetCNN().to(DEVICE)
+             load_TargetCNN(target5, name, Task)
+
+             F_Fc_CDA(name, target5, t_xseed, t_yseed, t_xtest, epoch, learning_rate, regularization)
+             CDA_Xtest, CDA_ytest_pre = test_TargetCNN(target5, t_xtest)  
+             print('Results of No', i, 'seed(', name, ')')
+             result5 = Result_evalute.predict(t_ytest.cpu().data.numpy(), CDA_ytest_pre)
+             result = np.hstack((result, result5))
+             print('---------------------------')
+        
+        if 1:
+             name = 'F_Fc_JDA'
+             target6 = model_define.TargetCNN().to(DEVICE)
+             load_TargetCNN(target6, name, Task)
+
+             F_Fc_JDA(name, target6, t_xseed, t_yseed, t_xtest, epoch, learning_rate, regularization)
+             MMDCDAR_Xtest, MMDCDAR_ytest_pre = test_TargetCNN(target6, t_xtest)  
+             print('Results of No', i, 'seed(', name, ')')
+             result6 = Result_evalute.predict(t_ytest.cpu().data.numpy(), MMDCDAR_ytest_pre)
+             result = np.hstack((result, result6))
+             print('---------------------------')
 
         if 1:
             name = 'F_Fc_JDASE'
             target7 = model_define.TargetCNN().to(DEVICE)
             load_TargetCNN(target7, name, Task)
-            learning_rate = 2e-3
-            regularization = 1e-4
-            epoch = 100
+
             F_Fc_JDASE(target7, t_xseed, t_yseed, t_xtest, source_x, source_y, epoch, learning_rate,
                        regularization)
-            JDASE_Xtest, JDASE_ytest_pre = test_TargetCNN(target7, t_xtest)  # 直接开始测试
+            JDASE_Xtest, JDASE_ytest_pre = test_TargetCNN(target7, t_xtest) 
             print('Results of No', i, 'seed(', name, ')')
             result7 = Result_evalute.predict(t_ytest.cpu().data.numpy(), JDASE_ytest_pre)
-            #result = np.hstack((result, result7))
+            result = np.hstack((result, result7))
             print('---------------------------')
 
         SeedResult[i, :] = result7
         name = model_num * ['MAE', 'MAPE', 'RMSE', 'R2']
         principle = pd.DataFrame(columns=name, data=SeedResult)
-        principle.to_csv('Result/' + Task + 'contrast_result.csv')
+        principle.to_csv('Result/' + Task + '_result.csv')
