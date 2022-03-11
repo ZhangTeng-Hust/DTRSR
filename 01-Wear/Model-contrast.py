@@ -11,7 +11,7 @@ import Result_evalute
 import CDA  # conditional
 import MDA  # marginal
 import model_define
-import Seed_Module  # Seeded replacement
+import Seed_Module  # Seed replacement
 
 DEVICE = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
