@@ -1,17 +1,12 @@
 # -*- coding: utf-8 -*-
 """
-Created on 14:11,2021/09/13
+Created on 14:11,2021/10/15
 @author: ZhangTeng
 """
 import numpy as np
 from sklearn.metrics import mean_squared_error, mean_absolute_error, r2_score
 
 def predict(y_true,y_pred):
-    '''
-    y_true: 实际标签
-    y_pred: 预测标签
-    return: 返回四个评价指标所组成的array
-    '''
 
     MAE = mean_absolute_error(y_true,y_pred)
     MAPE = np.mean(np.abs((y_true - y_pred) / y_true))
