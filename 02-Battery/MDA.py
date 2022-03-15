@@ -34,7 +34,6 @@ class MMD_loss(nn.Module):
                       for bandwidth_temp in bandwidth_list]
         return sum(kernel_val)
 
-
     def forward(self, source, target):
         if self.kernel_type == 'linear':
             return self.linear_mmd2(source, target)
