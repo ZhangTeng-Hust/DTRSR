@@ -1,2 +1,7 @@
-# DTRSR
+## DTRSR
 A deep transfer regression method based on seed replacement considering balanced domain adaptation
+
+##
+No reproduction without permission
+
+This work is currently being submitted to journals, so no individual or organization can fork this repository until it has been reviewed.
