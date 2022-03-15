@@ -215,7 +215,11 @@ if __name__ == '__main__':
     Task = 'No.5-No.6'
     for i in range(10):
         source_x, source_y, t_xseed, t_yseed, t_xtest, t_ytest = data_prepare(Task, Task, i)
-
+        
+        learning_rate = 2e-4
+        regularization = 1e-4
+        epoch = 100
+        
         if 1:
             name = 'Pre_Direct'
             target1 = model_define.TargetCNN().to(DEVICE)
@@ -229,9 +233,6 @@ if __name__ == '__main__':
         if 1:
             name = 'Retrain_All'
             target2 = model_define.TargetCNN().to(DEVICE)
-            learning_rate = 0.002
-            regularization = 1e-4
-            num_epochs = 30
 
             optimizer = torch.optim.Adam(target2.parameters(), lr=learning_rate, weight_decay=regularization)
             criterion = torch.nn.MSELoss()
@@ -251,9 +252,6 @@ if __name__ == '__main__':
             name = 'Finetune_Fc'
             target3 = model_define.TargetCNN().to(DEVICE)
             load_TargetCNN(target3, name, Task)
-            learning_rate = 0.02
-            regularization = 1e-4
-            epoch = 30
             FinetuneFC(target3, t_xseed, t_yseed, epoch, learning_rate, regularization)
             FFC_Xtest, FFC_ytest_pre = test_TargetCNN(target3, t_xtest)
             print('Results of No', i, 'seed(', name, '):')
@@ -265,9 +263,7 @@ if __name__ == '__main__':
             name = 'F_Fc_MMD'
             target4 = model_define.TargetCNN().to(DEVICE)
             load_TargetCNN(target4, name, Task)
-            learning_rate = 2e-4
-            regularization = 1e-4
-            epoch = 10
+
             F_Fc_MMD(name, target4, t_xseed, t_yseed, t_xtest, epoch, learning_rate, regularization)
             MMD_Xtest, MMD_ytest_pre = test_TargetCNN(target4, t_xtest)  # 直接开始测试
             print('Results of No', i, 'seed(', name, ')')
@@ -279,9 +275,7 @@ if __name__ == '__main__':
             name = 'F_Fc_CDA'
             target5 = model_define.TargetCNN().to(DEVICE)
             load_TargetCNN(target5, name, Task)
-            learning_rate = 2e-4
-            regularization = 1e-4
-            epoch = 10
+
             F_Fc_CDA(name, target5, t_xseed, t_yseed, t_xtest, epoch, learning_rate, regularization)
             CDA_Xtest, CDA_ytest_pre = test_TargetCNN(target5, t_xtest)  # 直接开始测试
             print('Results of No', i, 'seed(', name, ')')
@@ -293,9 +287,7 @@ if __name__ == '__main__':
             name = 'F_Fc_JDA'
             target6 = model_define.TargetCNN().to(DEVICE)
             load_TargetCNN(target6, name, Task)
-            learning_rate = 2e-4
-            regularization = 1e-4
-            epoch = 10
+
             F_Fc_JDA(name, target6, t_xseed, t_yseed, t_xtest, epoch, learning_rate, regularization)
             MMDCDAR_Xtest, MMDCDAR_ytest_pre = test_TargetCNN(target6, t_xtest) 
             print('Results of No', i, 'seed(', name, ')')
@@ -307,9 +299,7 @@ if __name__ == '__main__':
             name = 'F_Fc_JDASE'
              target7 = model_define.TargetCNN().to(DEVICE)
              load_TargetCNN(target7, name, Task)
-             learning_rate = 2e-4
-             regularization = 1e-4
-             epoch = 100
+
              F_Fc_JDASE(target7, t_xseed, t_yseed, t_xtest, source_x, source_y, epoch, learning_rate,
                         regularization)
              JDASE_Xtest, JDASE_ytest_pre = test_TargetCNN(target7, t_xtest) 
