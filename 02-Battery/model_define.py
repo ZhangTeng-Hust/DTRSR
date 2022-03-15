@@ -12,8 +12,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import torch.utils.data as Data
 from sklearn.metrics import r2_score
-# DEVICE = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
-DEVICE = torch.device('cpu')
+DEVICE = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 def acc_pre(y_true,y_pred):
     R2 = r2_score(y_true,y_pred)
     return R2
@@ -42,7 +41,7 @@ class SourceCNN(nn.Module):
         x = x.view(x.size(0), -1)
         x = self.fc1(x)
         inter_x = self.relu(x)
-        # inter_x is used to calculate MMD during trainning
+
         x = self.fc2(inter_x)
         x = self.relu(x)
         x = self.fc3(x)
@@ -174,8 +173,7 @@ if __name__ == '__main__':
         Result_evalute.predict(target_y.data.numpy(), t_ypre.data.numpy())
 
         plt.scatter(source_y.data.numpy(),s_ypre.data.numpy(),c='r')
-        # plt.xlim([40, 150])
-        # plt.ylim([40, 150])
+
         plt.show()
         '''
         cycle = (np.arange(313)).reshape(313, 1)  # 这里相当于定义了一个从1到313的横坐标
