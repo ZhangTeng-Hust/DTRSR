@@ -1,7 +1,11 @@
-## DTRSR
-A deep transfer regression method based on seed replacement considering balanced domain adaptation
+### DTRSR
+A **d**eep **t**ransfer **r**egression method based on **s**eed **r**eplacement considering balanced domain adaptation
 
-## Special Reminder
+### Special Reminder
  No reproduction without permission！！！
  
- This work is currently being submitted to elsevier, so *no individual or organization can fork this repository* until it has been reviewed.
+ This work is currently being submitted to Elsevier, so ***no individual or organization can fork this repository*** until it has been reviewed.
+
+###  Added instructions
+- The robot machining errors data set is a private data set constructed by our team, which is not convenient to be disclosed. We hope you can understand.
+- The results of the proposed method are not guaranteed to be the best, but are sufficient to prove the effectiveness of the method
