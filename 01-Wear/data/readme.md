@@ -1,15 +1,8 @@
 ### Description
   Since the memory of the data file exceeds the maximum that the folder can hold, the data can be fetched in the connection as shown below：
   
-  link：https://pan.baidu.com/s/1Yotq9YHBIzuuiiGT_9Gd_A 
+  link： https://pan.baidu.com/s/1icjb1W6fMMgkk3WJ6CDJfA 
   
-  Extraction Code：0qor
+  Extraction Code：zvi7
 ### Related Data
-The original data can be found at https://phmsociety.org/phm_competition/2010-phm-society-conference-datachallenge/
-
-#### WHERE YOU CAN GET？
-The raw data above I also downloaded from NASA's official website to my local computer, you can find the raw data in the following link to choose a new strategy for your own work：
-
-  link：https://pan.baidu.com/s/1QX-gRppfWm-I5ianM3b-sg 
-  
-  Extraction Code：5000
+The original data can be found at https://phmsociety.org/phm_competition/2010-phm-society-conference-data-challenge/
