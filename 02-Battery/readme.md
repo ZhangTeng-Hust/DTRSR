@@ -1,5 +1,5 @@
 ## Related instructions
-For the battery capacity set, the tasks are defined as: *No.5-No.6*, *No.6-No.5*, *No.5-No.7*, *No.7-No.5*, *No.6-No.7*, and *No.7-No.6*.
+For the battery capacity set, the tasks are defined as: *NO.5-NO.6*, *NO.6-NO.5*, *NO.5-NO.7*, *NO.7-NO.5*, *NO.6-NO.7*, and *NO.7-NO.6*.
 
 ### The  functions  of each folder are described below
 
