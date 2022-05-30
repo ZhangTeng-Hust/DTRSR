@@ -23,6 +23,6 @@ For the battery capacity set, the tasks are defined as: *NO.5-NO.6*, *NO.6-NO.5*
 
 - ***Result_evalute. py*** is used to evaluate the effect of regression, and an array composed of *MAE*,*MAPE*,*RMSE* and *R^2^* can be obtained;
 - ***Seed_Module. py*** is used to perform a seed replacement module to integrate source domain knowledge and target domain knowledge into the new data in the form of **cluster structure** and **cluster center**, respectively;
-- ***Model-contrast. py*** is used to compare *DTRSR* with other methods, such as *Pre_D*, *ReTrain*, *FC*, *MDA*, *CDA*, and *BDA*;
+- ***Model-contrast. py*** is used to compare *DTRSR* with other methods, such as *PD*, *RT*, *FC*, *MDA*, *CDA*, and *BDA*;
 - ***TCA_DAN_contrast. py*** is used to compare *DTRSR* with *TCA* and *DAN*;
 - ***TST_contrast. py*** is used to compare *DTRSR* with Two Stage TrAdaBoost.R2;
