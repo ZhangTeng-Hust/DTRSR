@@ -1,7 +1,6 @@
 """
-Created on 16:16,2022/01/05
-@author: ZhangTeng
-Build up the Contrast model of TCA and DAN
+
+Contruct model of TCA and DAN
 """
 
 import numpy as np
@@ -119,7 +118,7 @@ Source.load_state_dict(new_dict)
 TCAResult = np.zeros((10,4))
 DANResult = np.zeros((10,4))
 
-# TCA方法
+# TCA
 for i in range(10):
 
     index1 = seedrecord[i, :]  # 选出第i行seedrecord中的数据
@@ -141,44 +140,44 @@ for i in range(10):
 
     name = ['MAE', 'MAPE', 'RMSE', 'R2']
     principle = pd.DataFrame(columns=name, data=TCAResult)
-    principle.to_csv('Result/' + Task + '-TCAresult.csv')
+    principle.to_csv('Result/' + Task + '-TCA_result.csv')
 
-# DAN方法   无法自动循环，需要手动对研究的情况进行填写，写到对应的文件中。
+# DAN
 learning_rate = 0.01
 regularization = 1e-4
 num_epochs = 100
-
-q = 9
 Target = TargetCNN().to(DEVICE)
-
 optimizer = torch.optim.Adam(Target.parameters(), lr=learning_rate, weight_decay=regularization)
 criterion = torch.nn.MSELoss()
-index1 = seedrecord[q, :]  # 选出第i行seedrecord中的数据
-index2 = np.delete(np.arange(313), index1)
 
-Xs = source_x
-Ys = source_y
-Xt = target_x[index2, :, :]
-Yt = target_y[index2, :]
-Xt_s = target_x[index1, :, :]
-Yt_s = target_y[index1, :]
 
-for i in range(num_epochs):
-    Xs_list, Ys_pre = Target.forward(Xs)
-    Xt_s_list, Yt_s_pre = Target.forward(Xt_s)
-    mmd_loss = DAN.mmd(Xs_list[0],Xt_s_list[0])
+for q in range(10):
+    index1 = seedrecord[q, :]  # 选出第i行seedrecord中的数据
+    index2 = np.delete(np.arange(313), index1)
 
-    Loss = criterion(Ys_pre, source_y) + mmd_loss
-    optimizer.zero_grad()
-    Loss.backward()
-    optimizer.step()
+    Xs = source_x
+    Ys = source_y
+    Xt = target_x[index2, :, :]
+    Yt = target_y[index2, :]
+    Xt_s = target_x[index1, :, :]
+    Yt_s = target_y[index1, :]
 
-    if (i % 10 == 0):
-        print(i, Loss.data)
+    for i in range(num_epochs):
+        Xs_list, Ys_pre = Target.forward(Xs)
+        Xt_s_list, Yt_s_pre = Target.forward(Xt_s)
+        mmd_loss = DAN.mmd(Xs_list[0],Xt_s_list[0])
+    
+        Loss = criterion(Ys_pre, source_y) + mmd_loss
+        optimizer.zero_grad()
+        Loss.backward()
+        optimizer.step()
 
-Xt_list, Yt_pre = Target.forward(Xt)
-result2 = Result_evalute.predict(Yt.cpu().data.numpy(), Yt_pre.cpu().data.numpy())
-# DANResult[q, :] = result2
-# name = ['MAE', 'MAPE', 'RMSE', 'R2']
-# principle2 = pd.DataFrame(columns=name, data=DANResult)
-# principle2.to_csv('Result/' + Task + '-DANresult.csv')
+        if (i % 10 == 0):
+            print(i, Loss.data)
+
+    Xt_list, Yt_pre = Target.forward(Xt)
+    result2 = Result_evalute.predict(Yt.cpu().data.numpy(), Yt_pre.cpu().data.numpy())
+    DANResult[q, :] = result2
+    name = ['MAE', 'MAPE', 'RMSE', 'R2']
+    principle2 = pd.DataFrame(columns=name, data=DANResult)
+    principle2.to_csv('Result/' + Task + '-DAN_result.csv')
