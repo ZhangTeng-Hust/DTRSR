@@ -12,6 +12,12 @@ The flow chart of the DTRSR is shown as follows. In terms of structure, there ar
 <img src=https://github.com/ZhangTeng-Hust/DTRSR/blob/main/IMG/DTRSR.png>
 </div>
 
+### Result
+The average MAEs of all methods in 18 tasks are compared as follows.
+<div align=center>
+<img src=https://github.com/ZhangTeng-Hust/DTRSR/blob/main/IMG/LeiDa.png>
+</div>
+
 ### Special Reminder
 No reproduction without permission！！！
 
