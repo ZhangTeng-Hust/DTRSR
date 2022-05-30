@@ -103,10 +103,10 @@ def F_Fc_JDASE(model, target_x, source_x):
     with torch.no_grad():
         source_list, prediction2 = model.forward(source_x)
         target_list, prediction5 = model.forward(target_x)
-    s_x = source_list[0]  # 全部源域数据
+    s_x = source_list[0] 
     t_x = target_list[0]
 
-    # 经过Seed诱导之后的全部源域数据，经过Seed后数据类型是一个numpy
+
     return s_x, t_x
 
 if __name__ == '__main__':
@@ -119,23 +119,23 @@ if __name__ == '__main__':
         name = 'F_Fc_JDASE'
         target7 = model_define.TargetCNN().to(DEVICE)
         load_TargetCNN(target7, name, Task)
-        s_x, t_x = F_Fc_JDASE(target7, target_x, source_x)   # 得到高维特征
+        s_x, t_x = F_Fc_JDASE(target7, target_x, source_x)  
         s_x = s_x.cpu().numpy()
         t_x = t_x.cpu().numpy()
         source_y = source_y.cpu().numpy()
         target_y = target_y.cpu().numpy()
 
-        tsneoriginal = TSNE(n_components=2, init='pca', random_state=0)   #源域
+        tsneoriginal = TSNE(n_components=2, init='pca', random_state=0)  
         original_source = tsneoriginal.fit_transform(s_x)
         s_x = original_source
 
-        tsnetarget = TSNE(n_components=2, init='pca', random_state=0)    #目标域
+        tsnetarget = TSNE(n_components=2, init='pca', random_state=0)   
         original_target = tsneoriginal.fit_transform(t_x)
         t_x = original_target
 
         for i in range(10):
             seedrecord = pd.read_csv('SeedIndex/' + Task + '_Seed.csv').values
-            index1 = seedrecord[i, :]  # 选出第i行seedrecord中的数据
+            index1 = seedrecord[i, :] 
             index2 = np.delete(np.arange(313), index1)
             t_xseed = t_x[index1, :]
             t_yseed = target_y[index1]
@@ -160,6 +160,6 @@ if __name__ == '__main__':
             result7 = Result_evalute.predict(t_ytest, y_pred1)
             SeedResult[i,:] = result7
         principle = pd.DataFrame(data=SeedResult)
-        principle.to_csv('Revised_results/' + Task + 'TrAdaBoost.csv')
+        principle.to_csv('Results/' + Task + 'TrAdaBoost.csv')
 
 
