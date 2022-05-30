@@ -7,7 +7,10 @@ A deep transfer regression method based on seed replacement considering balanced
 - 3. The DTRSR proposed in this paper provides an adequate and active learning framework for regression tasks in terms of model, data, and loss function.
 
 ### Structure
-![image](https://github.com/ZhangTeng-Hust/DTRSR/blob/main/IMG/DTRSR.png)
+The flow chart of the DTRSR is shown as follows. In terms of structure, there are four parts, including (a) Structure freezing and parameters transfer, (b) Deep feature extraction, (c) Seed replacement and (d) Fusion Loss Function. 
+<div align=center>
+<img src=https://github.com/ZhangTeng-Hust/DTRSR/blob/main/IMG/DTRSR.png>
+</div>
 
 ### Special Reminder
 No reproduction without permission！！！
