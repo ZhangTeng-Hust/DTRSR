@@ -1,10 +1,4 @@
 # -*- coding: utf-8 -*-
-"""
-Created on Fri Dec 11 14:01:02 2020
-
-@author: Zz
-"""
-
 import numpy as np
 import torch
 import torch.nn as nn
@@ -41,7 +35,7 @@ import numpy as np
 def guassian_kernel(source, target, kernel_mul=1.0, kernel_num=2, fix_sigma=None):
 
     n_samples = int(source.size()[0])+int(target.size()[0])
-    total = torch.cat([source, target], dim=0) # 合并在一起
+    total = torch.cat([source, target], dim=0) 
     
     total0 = total.unsqueeze(0).expand(int(total.size(0)), \
                                        int(total.size(0)), \
@@ -49,9 +43,9 @@ def guassian_kernel(source, target, kernel_mul=1.0, kernel_num=2, fix_sigma=None
     total1 = total.unsqueeze(1).expand(int(total.size(0)), \
                                        int(total.size(0)), \
                                        int(total.size(1)))
-    L2_distance = ((total0-total1)**2).sum(2) # 计算高斯核中的|x-y|
+    L2_distance = ((total0-total1)**2).sum(2) 
     
-    # 计算多核中每个核的bandwidth
+
     if fix_sigma:
         bandwidth = fix_sigma
     else:
@@ -59,11 +53,11 @@ def guassian_kernel(source, target, kernel_mul=1.0, kernel_num=2, fix_sigma=None
     bandwidth /= kernel_mul ** (kernel_num // 2)
     bandwidth_list = [bandwidth * (kernel_mul**i) for i in range(kernel_num)]
     
-    # 高斯核的公式，exp(-|x-y|/bandwith)
+
     kernel_val = [torch.exp(-L2_distance / bandwidth_temp) for \
                   bandwidth_temp in bandwidth_list]
 
-    return sum(kernel_val) # 将多个核合并在一起
+    return sum(kernel_val)
   
 def mmd(source, target, kernel_mul=2, kernel_num=3, fix_sigma=None):
     batch_size1 = int(source.size()[0])
@@ -84,5 +78,5 @@ def mmd(source, target, kernel_mul=2, kernel_num=3, fix_sigma=None):
                 M[i][j] = -1/(batch_size1*batch_size2)
     M = torch.Tensor(M).to(DEVICE)
     loss = torch.trace(torch.mm(kernels,M))
-    # 当不同的时候，就需要乘上上面的M矩阵
+
     return loss
