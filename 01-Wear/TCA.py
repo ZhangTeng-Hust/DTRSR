@@ -1,10 +1,4 @@
 # -*- coding: utf-8 -*-
-"""
-Created on 10:25,2021/09/14
-@author: ZhangTeng
-TCA model
-"""
-
 import numpy as np
 import scipy.io
 import scipy.linalg
