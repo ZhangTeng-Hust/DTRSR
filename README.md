@@ -6,6 +6,9 @@ A deep transfer regression method based on seed replacement considering balanced
 - 2. Seed replacement is applied to integrate the knowledge of source domain and target domain into the new data set in the form of cluster structure and cluster center, which achieves more active learning of domain knowledge.
 - 3. The DTRSR proposed in this paper provides an adequate and active learning framework for regression tasks in terms of model, data, and loss function.
 
+### Structure
+![image](https://github.com/ZhangTeng-Hust/DTRSR/blob/main/IMG/DTRSR.png)
+
 ### Special Reminder
 No reproduction without permission！！！
 
