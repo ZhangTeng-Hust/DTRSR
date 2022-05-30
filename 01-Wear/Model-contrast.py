@@ -289,9 +289,9 @@ if __name__ == '__main__':
              load_TargetCNN(target6, name, Task)
 
              F_Fc_JDA(name, target6, t_xseed, t_yseed, t_xtest, epoch, learning_rate, regularization)
-             MMDCDAR_Xtest, MMDCDAR_ytest_pre = test_TargetCNN(target6, t_xtest)  
+             JDA_Xtest, JDA_ytest_pre = test_TargetCNN(target6, t_xtest)  
              print('Results of No', i, 'seed(', name, ')')
-             result6 = Result_evalute.predict(t_ytest.cpu().data.numpy(), MMDCDAR_ytest_pre)
+             result6 = Result_evalute.predict(t_ytest.cpu().data.numpy(), JDA_ytest_pre)
              result = np.hstack((result, result6))
              print('---------------------------')
 
