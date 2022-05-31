@@ -17,6 +17,7 @@ The average MAEs of all methods in 18 tasks are compared as follows.
 <div align=center>
 <img src=https://github.com/ZhangTeng-Hust/DTRSR/blob/main/IMG/LeiDa.png>
 </div>
+From the radar maps shown above, it can be seen that the red lines are in the inner circle and are all at a greater distance from the outer circle, which indicates that DTRSR is effective.
 
 ### Special Reminder
 No reproduction without permission！！！
