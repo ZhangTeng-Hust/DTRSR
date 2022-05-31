@@ -19,12 +19,12 @@ The average MAEs of all methods in 18 tasks are compared as follows.
 </div>
 From the radar maps shown above, it can be seen that the red lines are in the inner circle and are all at a greater distance from the outer circle, which indicates that DTRSR is effective.
 
-### Special Reminder
+## Special Reminder
 No reproduction without permission！！！
 
 This work is currently being submitted to Elsevier, so no individual or organization can fork this repository until it has been reviewed.
 
-### Added instructions
+## Added instructions
 The robot machining errors data set is a private data set constructed by our team, which is not convenient to be disclosed. We hope you can understand.
 The results of the proposed method are not guaranteed to be the best, but are sufficient to prove the effectiveness of the method.
 After the manuscript is accepted, the data that support the findings of this study are available from the corresponding author upon reasonable request.
