@@ -27,4 +27,6 @@ For the tool wear data set, the tasks are defined as: *C1-C4*, *C4-C1*, *C1-C6*,
 - ***TCA_DAN_contrast. py*** is used to compare *DTRSR* with *TCA* and *DAN*;
 - ***TST_contrast. py*** is used to compare *DTRSR* with Two Stage TrAdaBoost.R2;
 
-### 
+## Gratitude
+The writer provides the reference of the original code for this work, https://github.com/jay15summer/Two-stage-TrAdaboost.R2，
+TwoStageTrAdaboost.py was built by the author，Thank you very much.
