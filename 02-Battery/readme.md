@@ -26,3 +26,7 @@ For the battery capacity set, the tasks are defined as: *NO.5-NO.6*, *NO.6-NO.5*
 - ***Model-contrast. py*** is used to compare *DTRSR* with other methods, such as *PD*, *RT*, *FC*, *MDA*, *CDA*, and *BDA*;
 - ***TCA_DAN_contrast. py*** is used to compare *DTRSR* with *TCA* and *DAN*;
 - ***TST_contrast. py*** is used to compare *DTRSR* with Two Stage TrAdaBoost.R2;
+
+## Gratitude
+The writer provides the reference of the original code for this work, https://github.com/jay15summer/Two-stage-TrAdaboost.R2，
+TwoStageTrAdaboost.py was built by the author，Thank you very much.
