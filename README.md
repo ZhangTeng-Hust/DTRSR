@@ -29,3 +29,8 @@ The robot machining errors data set is a private data set constructed by our tea
 The results of the proposed method are not guaranteed to be the best, but are sufficient to prove the effectiveness of the method.
 After the manuscript is accepted, the data that support the findings of this study are available from the corresponding author upon reasonable request.
 Links to accepted article will also be added here.
+
+## Updata
+A Share Link – a personalized URL providing 50 days' free access to the article have been created. Anyone clicking on this link before September 27, 2022 will be taken directly to the final version of this article on ScienceDirect, which you are welcome to read or download. No sign up, registration or fees are required.
+
+The personalized Share Link: https://authors.elsevier.com/c/1fYM-3OWJ90-Mu
