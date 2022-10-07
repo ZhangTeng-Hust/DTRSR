@@ -34,3 +34,6 @@ Links to accepted article will also be added here.
 A Share Link – a personalized URL providing 50 days' free access to the article have been created. Anyone clicking on this link before September 27, 2022 will be taken directly to the final version of this article on ScienceDirect, which you are welcome to read or download. No sign up, registration or fees are required.
 
 The personalized Share Link: https://authors.elsevier.com/c/1fYM-3OWJ90-Mu
+
+## Update Again
+The final link is https://www.sciencedirect.com/science/article/pii/S0952197622003128
