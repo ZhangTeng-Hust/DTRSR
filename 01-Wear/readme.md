@@ -14,18 +14,9 @@ For the tool wear data set, the tasks are defined as: *C1-C4*, *C4-C1*, *C1-C6*,
 - ***model_define. py***  is use to train the pre-trained models saved in *Pre-trained-model* folder;
 <br>
 
-- ***MDA. py*** is used to measure the difference in marginal distribution between two datasets as follow:
-- ***CDA. py*** is used to measure the difference in conditional distribution between two datasets;
-- ***TCA. py*** is used to contrast a TCA model;
-- ***BDA. py*** is used to contrast a BDA model;
-- ***TwoStageTrAdaBoostR2. py*** is a construction procedure of TwoStageTrAdaBoostR2 model;
-<br>
-
 - ***Result_evalute. py*** is used to evaluate the effect of regression, and an array composed of *MAE*,*MAPE*,*RMSE* and *R^2^* can be obtained;
 - ***Seed_Module. py*** is used to perform a seed replacement module to integrate source domain knowledge and target domain knowledge into the new data in the form of **cluster structure** and **cluster center**, respectively;
 - ***Model-contrast. py*** is used to compare *DTRSR* with other methods, such as *PD*, *RT*, *FC*, *MDA*, *CDA*, and *BDA*;
-- ***TCA_DAN_contrast. py*** is used to compare *DTRSR* with *TCA* and *DAN*;
-- ***TST_contrast. py*** is used to compare *DTRSR* with Two Stage TrAdaBoost.R2;
 
 ## Gratitude
 The writer provides the reference of the original code for this work, https://github.com/jay15summer/Two-stage-TrAdaboost.R2，
